@@ -188,7 +188,7 @@
                         android:layout_alignParentBottom="true"
                         android:textColor="@color/colorAccent"
                         android:gravity="center"
-                        android:text="Scan code"></TextView>
+                        android:text="Scan code1"></TextView>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -234,7 +234,7 @@
                         android:layout_alignParentBottom="true"
                         android:textColor="@color/colorAccent"
                         android:gravity="center"
-                        android:text="Scan code"></TextView>
+                        android:text="Scan code2"></TextView>
                 </RelativeLayout>
             </LinearLayout>
 
