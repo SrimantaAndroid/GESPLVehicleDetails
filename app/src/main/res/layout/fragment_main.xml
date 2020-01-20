@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainFragment">
+
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_350sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/rectangle_broder_white"></ImageView>
+
+
+    <TextView
+        android:id="@+id/tvdeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_60sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:text="Details"
+        android:textSize="@dimen/_17sdp"
+
+        ></TextView>
+
+    <TextView
+        android:id="@+id/spcode"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:text="Spcode"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center_vertical"
+        android:background="@drawable/rectangle_broder_black"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintTop_toBottomOf="@+id/tvdeta"></TextView>
+
+    <Spinner
+        android:id="@+id/sp_vesicaltype"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:padding="@dimen/_5sdp"
+        android:hint="Select Your station "
+        android:gravity="center_vertical"
+        android:textSize="@dimen/_15sdp"
+        style="@style/spinner_style"
+
+        app:layout_constraintTop_toBottomOf="@+id/spcode"
+        android:layout_marginTop="@dimen/_7sdp">
+
+    </Spinner>
+
+    <EditText
+        android:id="@+id/vehicalform"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:hint="Enter Vehicle From"
+        android:gravity="center_vertical"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/rectangle_broder_black"
+        android:textSize="@dimen/_14sdp"
+        app:layout_constraintTop_toBottomOf="@+id/sp_vesicaltype"></EditText>
+
+    <EditText
+        android:id="@+id/vehicalto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:hint="Enter Vehicle To"
+        android:gravity="center_vertical"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/rectangle_broder_black"
+        android:textSize="@dimen/_14sdp"
+        app:layout_constraintTop_toBottomOf="@+id/vehicalform"></EditText>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_50sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textSize="@dimen/_18sdp"
+        android:text="Next"
+        app:layout_constraintTop_toBottomOf="@+id/vehicalto"></Button>
+   <!-- <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_associatevoterid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        app:errorEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/tvdeta"
+        >
+        <EditText
+            android:id="@+id/et_associatedvoterid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="Voter ID*"
+            android:textColor="@color/biack"></EditText>
+    </com.google.android.material.textfield.TextInputLayout>
+-->
+</androidx.constraintlayout.widget.ConstraintLayout>
