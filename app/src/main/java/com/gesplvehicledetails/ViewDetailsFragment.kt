@@ -53,6 +53,7 @@ class ViewDetailsFragment : Fragment() {
     var tvbound:TextView?=null
     var et_actualdeprturedate:TextView?=null
     var et_actualarrivaldate:TextView?=null
+    var btn_exit:Button?=null
 
     val REQUEST_CODE = 100
     var myPath: File?=null
@@ -82,6 +83,7 @@ class ViewDetailsFragment : Fragment() {
         }
 
         btn_send!!.setOnClickListener {
+            val result: Boolean = checkPermission()
             if (!result){
                 checkPermission()
             }else {
@@ -90,7 +92,33 @@ class ViewDetailsFragment : Fragment() {
             }
 
         }
+
+        btn_exit!!.setOnClickListener {
+
+            showalertforexit()
+
+        }
         return view
+    }
+
+    private fun showalertforexit() {
+        val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    activity!!.finish()
+                    dialog.dismiss()
+                }
+
+                DialogInterface.BUTTON_NEGATIVE -> {
+                    dialog.dismiss()
+                }
+            }//Yes button clicked
+            //No button clicked
+        }
+
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setMessage("Are you sure to exit?").setPositiveButton("Yes", dialogClickListener)
+            .setNegativeButton("No", dialogClickListener).show()
     }
 
     private fun checkPermission(): Boolean {
@@ -137,7 +165,7 @@ class ViewDetailsFragment : Fragment() {
         val alertBuilder = AlertDialog.Builder(activity!!)
         alertBuilder.setCancelable(true)
         alertBuilder.setTitle(resources.getString(R.string.app_name))
-        alertBuilder.setMessage("Permession")
+        alertBuilder.setMessage("Permession.")
         alertBuilder.setPositiveButton(android.R.string.yes,
             DialogInterface.OnClickListener { dialog, which -> requestPermissions(permissions,REQUEST_CODE) })
         val alert = alertBuilder.create()
@@ -147,9 +175,14 @@ class ViewDetailsFragment : Fragment() {
         var   c:Date = Calendar.getInstance().getTime();
         var df:SimpleDateFormat =  SimpleDateFormat("DD-MMMM-yyyy");
         var  formattedDate:String = df.format(c)
+        var Fnamexls:String=""
 
-       val Fnamexls=  SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type)+"_"+SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!)+"_" +SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!)+"_"+formattedDate+".xls"
-      //  val Fnamexls = "excelSheet" + System.currentTimeMillis() + ".xls"
+        if(SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type).equals("INBOUND")) {
+            Fnamexls=  SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type)+"_"+SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!)+"_" +SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!)+"_"+SheardPreference.getSomeStringValue(activity!!, SheardParam.arrivaldate!!)+".xls"
+        }else
+            Fnamexls=  SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type)+"_"+SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!)+"_" +SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!)+"_"+SheardPreference.getSomeStringValue(activity!!, SheardParam.deperturedate!!)+".xls"
+
+        //  val Fnamexls = "excelSheet" + System.currentTimeMillis() + ".xls"
         val sdCard = Environment.getExternalStorageDirectory()
         val directory = File(sdCard.absolutePath + "/Gespl")
         directory.mkdirs()
@@ -185,7 +218,7 @@ class ViewDetailsFragment : Fragment() {
             val label18 = Label(8, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.v_arrivaltime!!))
             val label19 = Label(9, 0, "DEPARTURE TIME")
             val label20 = Label(9, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.vdeparttime!!))
-            val label21 = Label(10, 0, "CTP % Code")
+            val label21 = Label(10, 0, "CTP %")
             val label22 = Label(10, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.percentage!!))
             val label23 = Label(11, 0, "CASE ID")
             val label24 = Label(11, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.casetype!!))
@@ -195,14 +228,10 @@ class ViewDetailsFragment : Fragment() {
             val label28 = Label(13, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.arrivaldate!!))
             val label29 = Label(14, 0, "Dep. Date")
             val label30 = Label(14, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.deperturedate))
-            /*   val label31 = Label(15, 0, "Mobile 2")
-           val label32 = Label(
-                 15,
-                 1,
-                 SheardPreference.getSomeStringValue(activity!!, SheardParam.mob2!!).toString()
-             )
-             val label33 = Label(16, 0, "DL number")
-             val label34 =
+            val label31 = Label(15, 0, "Route Type")
+           val label32 = Label(15, 1, SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type))
+            /*  val label33 = Label(16, 0, "DL number")
+            val label34 =
                  Label(16, 1, SheardPreference.getSomeStringValue(activity!!, SheardParam.dl!!))
              val label35 = Label(17, 0, "DL year of issue")
              val label36 =
@@ -255,20 +284,20 @@ class ViewDetailsFragment : Fragment() {
                 // sheet.addCell(label29)
                 sheet.addCell(label29)
                 sheet.addCell(label30)
-                /* sheet.addCell(label31)
+                sheet.addCell(label31)
                 sheet.addCell(label32)
-                sheet.addCell(label33)
-                sheet.addCell(label34)
-                sheet.addCell(label35)
-                sheet.addCell(label36)
-                sheet.addCell(label37)
-                sheet.addCell(label38)
-                sheet.addCell(label39)
-                sheet.addCell(label40)
-                sheet.addCell(label41)
-                sheet.addCell(label42)
-                sheet.addCell(label43)
-                sheet.addCell(label44)*/
+                /*  sheet.addCell(label33)
+                 sheet.addCell(label34)
+                 sheet.addCell(label35)
+                 sheet.addCell(label36)
+                 sheet.addCell(label37)
+                 sheet.addCell(label38)
+                 sheet.addCell(label39)
+                 sheet.addCell(label40)
+                 sheet.addCell(label41)
+                 sheet.addCell(label42)
+                 sheet.addCell(label43)
+                 sheet.addCell(label44)*/
 
             } catch (e: RowsExceededException) {
                 e.printStackTrace()
@@ -295,24 +324,43 @@ class ViewDetailsFragment : Fragment() {
         var   c:Date = Calendar.getInstance().getTime();
         var df:SimpleDateFormat =  SimpleDateFormat("DD-MMMM-yyyy");
         var  formattedDate:String = df.format(c)
+        var mailsuject:String=""
+        var mailtext:String?=""
 
-        val  mailsuject=  SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type)+" || "+SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!)+" || " +SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!)+"("+SheardPreference.getSomeStringValue(activity!!,SheardParam.loginusername!!)+")"
+        if(SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type).equals("INBOUND")) {
+             mailsuject = SheardPreference.getSomeStringValue(activity!!, SheardParam.vacti_trns_type) + " || " + SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!) + " || " + SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!) + "||" + SheardPreference.getSomeStringValue(activity!!, SheardParam.arrivaldate!!)
 
-        val  mailtext="Sp: "+ SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!)+"\n"+
-                "VR ID: "+SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!)  +"\n"+
-                "Date: "+formattedDate  +"\n"+
-                "Route: "+  SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type)+"\n"+
-                "Vehicle Route: "+ SheardPreference.getSomeStringValue(activity!!,SheardParam.trns_form)+" > "+SheardPreference.getSomeStringValue(activity!!,SheardParam.trns_to)+"\n"+
-                "CTP %: "+ SheardPreference.getSomeStringValue(activity!!,SheardParam.percentage)+"\n"+
-                "Case Id: "+ SheardPreference.getSomeStringValue(activity!!,SheardParam.casetype)+"\n"+
-                "Reason: "+ SheardPreference.getSomeStringValue(activity!!,SheardParam.reason)
+             mailtext = "Sp: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!) + "\n" +
+                    "VR ID: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!) + "\n" +
+                    "Date: " +  SheardPreference.getSomeStringValue(activity!!, SheardParam.arrivaldate!!) + "\n" +
+                    "Route: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.vacti_trns_type) + "\n" +
+                    "Vehicle Route: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.trns_form) + " > " + SheardPreference.getSomeStringValue(activity!!, SheardParam.trns_to) + "\n" +
+                    "CTP %: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.percentage) + "\n" +
+                    "Case Id: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.casetype) + "\n" +
+                    "Reason: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.reason) + "\n\n\n" +
+                     "Thank you,"+"\n"+SheardPreference.getSomeStringValue(activity!!, SheardParam.loginusername!!)
+        }else{
+             mailsuject = SheardPreference.getSomeStringValue(activity!!, SheardParam.vacti_trns_type) + " || " + SheardPreference.getSomeStringValue(activity!!,
+                SheardParam.loginuserstation!!) + " || " + SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!) + "||" + SheardPreference.getSomeStringValue(activity!!, SheardParam.deperturedate!!)
+
+             mailtext = "Sp: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.loginuserstation!!) + "\n" +
+                    "VR ID: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.Vid!!) + "\n" +
+                    "Date: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.deperturedate!!) + "\n" +
+                    "Route: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.vacti_trns_type) + "\n" +
+                    "Vehicle Route: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.trns_form) + " > " + SheardPreference.getSomeStringValue(activity!!,
+                SheardParam.trns_to) + "\n" + "CTP %: " + SheardPreference.getSomeStringValue(activity!!,
+                SheardParam.percentage) + "\n" + "Case Id: " + SheardPreference.getSomeStringValue(
+                activity!!, SheardParam.casetype) + "\n" +
+                     "Reason: " + SheardPreference.getSomeStringValue(activity!!, SheardParam.reason)+ "\n\n\n" +
+                     "Thank you,"+"\n"+SheardPreference.getSomeStringValue(activity!!, SheardParam.loginusername!!)
+        }
 
 
        val i = Intent(Intent.ACTION_SEND)
         // i.type = "image/png"
         i.setType("*/*");
         if(SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type).equals("INBOUND")) {
-            i.putExtra(Intent.EXTRA_EMAIL, arrayOf("avijitgiri@giriexpressservice.com","gespl.ops@giriexpressservice.com"))
+            i.putExtra(Intent.EXTRA_EMAIL, arrayOf("avijitgiri@giriexpressservice.com","gespl.ops@giriexpressservice.com","ats-in-ccuy@amazon.com"))
         }else{
             i.putExtra(Intent.EXTRA_EMAIL, arrayOf("avijitgiri@giriexpressservice.com","gespl.ops@giriexpressservice.com",
                 "gopbeher@amazon.com"))
@@ -389,6 +437,7 @@ class ViewDetailsFragment : Fragment() {
         btnedit=view.findViewById(R.id.btnedit)
         et_actualdeprturedate=view.findViewById(R.id.et_actualdeprturedate)
         et_actualarrivaldate=view.findViewById(R.id.et_actualarrivaldate)
+        btn_exit=view.findViewById(R.id.btn_exit)
 
         tvbound!!.setText(SheardPreference.getSomeStringValue(activity!!,SheardParam.vacti_trns_type)+" Details")
 

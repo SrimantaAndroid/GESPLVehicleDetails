@@ -12,7 +12,13 @@ import com.gespl.bgv.utils.SheardPreference
 
 class LogInActivity : AppCompatActivity() {
 
-    val station= arrayOf("Select Sp Code","MIDD","KGPA","MIDNA","MIDNB","MDNC","MIDE","MIDG")
+    val station= arrayOf("Select Sp Code","KGPA",
+            "MDNA",
+            "MDNB",
+            "MDNC",
+            "MIDD",
+            "MIDE",
+            "MIDG")
     var sp_station:Spinner?=null
     var btnsubmit:Button?=null
     var et_name:EditText?=null

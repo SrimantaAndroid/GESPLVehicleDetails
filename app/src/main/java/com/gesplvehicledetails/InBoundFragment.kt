@@ -94,7 +94,17 @@ class InBoundFragment : Fragment() {
         val day=mcurrentdate.get(Calendar.DAY_OF_MONTH)
         var dpd :DatePickerDialog=  DatePickerDialog(activity!!,DatePickerDialog.OnDateSetListener(){
            datePicker: DatePicker?, year: Int, month: Int, day: Int ->
-            et_actualarrivaldate!!.setText(day.toString()+"-"+(month+1).toString()+"-"+year.toString())
+            var c :Calendar= Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH,month)
+            c.set(Calendar.DAY_OF_MONTH,day)
+            //instead of c.set(Calendar.HOUR, hour);
+            // c.set(Calendar.MINUTE, selectedMinute);
+            var  myFormat:String = "DD-MMM-YYYY"; // your own format
+            var  sdf :SimpleDateFormat=  SimpleDateFormat(myFormat, Locale.US);
+            var  formated_time:String = sdf.format(c.getTime());
+            et_actualarrivaldate!!.setText(formated_time)
+           // et_actualarrivaldate!!.setText(day.toString()+"-"+(month+1).toString()+"-"+year.toString())
             
         },year,month,day)
         dpd.show()
@@ -110,6 +120,7 @@ class InBoundFragment : Fragment() {
                     SheardPreference.setSomeStringValue(activity!!,SheardParam.Serial1,et_serialno1!!.text.toString())
                     if(!et_serialno2!!.text.toString().equals("")){
                         SheardPreference.setSomeStringValue(activity!!,SheardParam.Serial2,et_serialno2!!.text.toString())
+                       if (!et_serialno1!!.text.toString().equals(et_serialno2!!.text.toString())) {
                         if(!et_associatnoofbags!!.text.toString().equals("")){
                             SheardPreference.setSomeStringValue(activity!!,SheardParam.noofbags,et_associatnoofbags!!.text.toString())
                             if(!et_no_of_fluid!!.text.toString().equals("")){
@@ -131,6 +142,9 @@ class InBoundFragment : Fragment() {
 
                         }else
                             Alert.showalert(activity!!,"Please Enter no of bags.")
+
+                       }else
+                           Alert.showalert(activity!!,"SEAL no 1 and SEAL no 2 are same")
 
                     }else
                         Alert.showalert(activity!!,"Please Scan SEAL no 2")
